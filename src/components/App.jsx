@@ -7,24 +7,43 @@ import searchYouTube from '../lib/searchYouTube.js';
 import YOUTUBE_API_KEY from '../config/youtube.js';
 
 // var youtubeData;
-searchYouTube(
-  {
-    'max': '5',
-    'query': 'surfing',
-    'key': YOUTUBE_API_KEY
-  }, (data) => {
-    console.log(data);
-  }
-);
+// searchYouTube(
+//   {
+//     'max': '5',
+//     'query': 'surfing',
+//     'key': YOUTUBE_API_KEY
+//   }, (data) => {
+//     console.log(data);
+//   }
+// );
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      allVideos: exampleVideoData,
       videoOnPlay: exampleVideoData[0]  
     };
+    props.searchYouTube({
+      'max': '5',
+      'query': 'surfing',
+      'key': YOUTUBE_API_KEY
+    }, (data) => {
+      this.state.allVideos = data;
+      this.state.videoOnPlay = data[0];
+    });
   }
 
+  // componentDidMount() {
+  //   searchYouTube(  {
+  //     'max': '5',
+  //     'query': 'surfing',
+  //     'key': YOUTUBE_API_KEY
+  //   }, function() {
+
+  //   });
+  // }
+  
   handleNewPlayVideo(newVideo) {
     this.setState({
       videoOnPlay: newVideo
@@ -44,7 +63,7 @@ class App extends React.Component {
             <div><h5><em>videoPlayer</em> <VideoPlayer video={this.state.videoOnPlay}/></h5></div>
           </div>
           <div className="col-md-5">
-            <div><h5><em>videoList</em> <VideoList videos={exampleVideoData} handleNewPlayVideo={this.handleNewPlayVideo.bind(this)}/></h5></div>
+            <div><h5><em>videoList</em> <VideoList videos={this.state.allVideos} handleNewPlayVideo={this.handleNewPlayVideo.bind(this)}/></h5></div>
           </div>
         </div>
       </div>
