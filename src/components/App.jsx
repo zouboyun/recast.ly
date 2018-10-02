@@ -2,13 +2,26 @@ import Search from './Search.js';
 import VideoPlayer from './VideoPlayer.js';
 import VideoList from './VideoList.js';
 import VideoListEntry from './VideoListEntry.js';
+import exampleVideoData from '../data/exampleVideoData.js';
+import searchYouTube from '../lib/searchYouTube.js';
+import YOUTUBE_API_KEY from '../config/youtube.js';
 
+// var youtubeData;
+searchYouTube(
+  {
+    'max': '5',
+    'query': 'surfing',
+    'key': YOUTUBE_API_KEY
+  }, (data) => {
+    console.log(data);
+  }
+);
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      videoOnPlay: this.props.videos[0]  
+      videoOnPlay: exampleVideoData[0]  
     };
   }
 
@@ -31,7 +44,7 @@ class App extends React.Component {
             <div><h5><em>videoPlayer</em> <VideoPlayer video={this.state.videoOnPlay}/></h5></div>
           </div>
           <div className="col-md-5">
-            <div><h5><em>videoList</em> <VideoList videos={this.props.videos} handleNewPlayVideo={this.handleNewPlayVideo.bind(this)}/></h5></div>
+            <div><h5><em>videoList</em> <VideoList videos={exampleVideoData} handleNewPlayVideo={this.handleNewPlayVideo.bind(this)}/></h5></div>
           </div>
         </div>
       </div>
