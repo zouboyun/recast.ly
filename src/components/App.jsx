@@ -24,25 +24,17 @@ class App extends React.Component {
       allVideos: exampleVideoData,
       videoOnPlay: exampleVideoData[0]  
     };
-    props.searchYouTube({
+  }
+
+  componentDidMount() {
+    this.props.searchYouTube({
       'max': '5',
       'query': 'surfing',
       'key': YOUTUBE_API_KEY
     }, (data) => {
-      this.state.allVideos = data;
-      this.state.videoOnPlay = data[0];
+      this.setState({allVideos: data, videoOnPlay: data[0]});
     });
   }
-
-  // componentDidMount() {
-  //   searchYouTube(  {
-  //     'max': '5',
-  //     'query': 'surfing',
-  //     'key': YOUTUBE_API_KEY
-  //   }, function() {
-
-  //   });
-  // }
   
   handleNewPlayVideo(newVideo) {
     this.setState({
