@@ -35,8 +35,8 @@ class App extends React.Component {
     });
   }
 
-  handleSearchInput(searchKeyWord) {
-    this.getVideos(searchKeyWord);
+  handleSearchInput() {
+    return _.debounce((searchKeyWord) => this.getVideos(searchKeyWord), 500);
   }
 
   render() {
@@ -45,7 +45,7 @@ class App extends React.Component {
       <div>
         <nav className="navbar">
           <div className="col-md-6 offset-md-3">
-            <div><h5><em>search</em> <Search handleSearchInput={this.handleSearchInput.bind(this)} /></h5></div>
+            <div><h5><em>search</em> <Search handleSearchInput={this.handleSearchInput()} /></h5></div>
           </div>
         </nav>
         <div className="row">
