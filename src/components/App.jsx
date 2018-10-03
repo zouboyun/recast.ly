@@ -6,34 +6,27 @@ import exampleVideoData from '../data/exampleVideoData.js';
 import searchYouTube from '../lib/searchYouTube.js';
 import YOUTUBE_API_KEY from '../config/youtube.js';
 
-// var youtubeData;
-// searchYouTube(
-//   {
-//     'max': '5',
-//     'query': 'surfing',
-//     'key': YOUTUBE_API_KEY
-//   }, (data) => {
-//     console.log(data);
-//   }
-// );
-
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      allVideos: exampleVideoData,
-      videoOnPlay: exampleVideoData[0]  
+      allVideos: [],
+      videoOnPlay: null
     };
   }
 
-  componentDidMount() {
+  getVideos(keyword) {
     this.props.searchYouTube({
       'max': '5',
-      'query': 'surfing',
+      'query': keyword,
       'key': YOUTUBE_API_KEY
     }, (data) => {
       this.setState({allVideos: data, videoOnPlay: data[0]});
     });
+  }
+
+  componentDidMount() {
+    this.getVideos('lego');
   }
   
   handleNewPlayVideo(newVideo) {
@@ -42,12 +35,17 @@ class App extends React.Component {
     });
   }
 
+  handleSearchInput(searchKeyWord) {
+    this.getVideos(searchKeyWord);
+  }
+
   render() {
+
     return (
       <div>
         <nav className="navbar">
           <div className="col-md-6 offset-md-3">
-            <div><h5><em>search</em> <Search /></h5></div>
+            <div><h5><em>search</em> <Search handleSearchInput={this.handleSearchInput.bind(this)} /></h5></div>
           </div>
         </nav>
         <div className="row">
